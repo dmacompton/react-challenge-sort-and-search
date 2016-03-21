@@ -6,7 +6,7 @@ const Button = ({count, update}) => {
       Кнопка была нажата {count} раз
     </button>
   );
-}
+};
 
 
 export default Button;
