@@ -14,5 +14,5 @@ export function getJSON(url, success, error) {
 }
 
 export function compton(a) {
-  console.log(a);
+  // console.log(a);
 }

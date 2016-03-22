@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-const Button = ({count, update}) => {
+const Button = ({title, icon, update}) => {
   return (
     <button className="btn btn-default" onClick={update}>
-      Кнопка была нажата {count} раз
+      <i className={`icon fa ${icon}`}></i>{' '}{title}
     </button>
   );
 };
