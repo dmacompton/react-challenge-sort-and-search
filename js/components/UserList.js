@@ -9,8 +9,8 @@ export default class UserList extends Component {
     var users = this.props.users;
 
     if(searchString.length > 0){
-      users = users.filter(function(l){
-        return l.url.toLowerCase().match( searchString );
+      users = users.filter((u) => {
+        return u.namegit .toLowerCase().match( searchString );
       });
     }
     var usersList = users.map(
