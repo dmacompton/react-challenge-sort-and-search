@@ -11,7 +11,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       phrase: 'Нажми на кнопку!',
-      searchString: 'Ethan',
+      searchString: '',
       users: [],
       user: []
     };
@@ -37,22 +37,37 @@ export default class App extends Component {
   userSearch(str) {
     // this.setState({users: str});
   }
+  
+  searchBarChange(e) {
+    var str = e.target.value;
+    this.setState({searchString: str})
+  }
 
   render() {
-    console.log(this.state);
+    var searchString = this.state.searchString.trim().toLowerCase();
+    var users = this.state.users;
+
+    var user = this.state.user;
+    if(searchString.length > 0){
+      users = users.filter((u) => {
+        return u.name.toLowerCase().match( searchString );
+      });
+      user = users[0];
+    }
+    
     return (
       <div className="app container-fluid">
         {this.state.users.length > 0 ? 
           <div className="row">
             <div className="col-sm-12">
-              <SearchBar/>
+              <SearchBar inputChange={e => this.searchBarChange(e)}/>
               <ToolBar sortName={this.sortByAlphabet} sortAge={this.sortByAge} />
             </div>
             <div className="col-sm-4 col-md-3 col-lg-2">
-              <ActiveUser user={this.state.user}/>
+              <ActiveUser user={user}/>
             </div>
             <div className="col-sm-8 col-md-9 col-lg-10">
-              <UserList searchString={this.state.searchString} users={this.state.users} onUserClick={user => this.setState({user})}/>
+              <UserList searchString={this.state.searchString} users={users} onUserClick={user => this.setState({user})}/>
             </div>
           </div> : 
           <p className="text-center h2">LOADING</p>
