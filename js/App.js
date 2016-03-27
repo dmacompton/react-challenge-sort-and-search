@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import {getJSON} from './function';
 import UserList from './components/UserList';
 import ActiveUser from './components/ActiveUser';
@@ -10,10 +9,11 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phrase: 'Нажми на кнопку!',
       searchString: '',
       users: [],
-      user: []
+      user: [],
+      sortByName: false,
+      sortByAge: false
     };
     this.setNewUsers();
   }
@@ -27,16 +27,49 @@ export default class App extends Component {
   }
 
   sortByAlphabet() {
-    this.setState({users: _.sortBy(this.state.users, "name")})
+
+    var sortedUsers = [];
+    if (this.state.sortByName) {
+      sortedUsers = this.state.users.sort(function(e, t) {
+        return e.name > t.name ? -1 : 1;
+      });
+    } else {
+      sortedUsers = this.state.users.sort(function(e, t) {
+        return e.name > t.name ? 1 : -1;
+      });
+    }
+    
+    this.setState({
+      users: sortedUsers,
+      sortByName: !this.state.sortByName
+    });
   }
 
   sortByAge() {
-    this.setState({users: _.sortBy(this.state.users, "age")})
+    var sortedUsers = [];
+    if (this.state.sortByAge) {
+      sortedUsers = this.state.users.sort(function(e, t) {
+        return e.age > t.age ? -1 : 1;
+      }); 
+    } else {
+      sortedUsers = this.state.users.sort(function(e, t) {
+        return e.age > t.age ? 1 : -1;
+      });
+    }
+    
+    this.setState({
+      users: sortedUsers,
+      sortByAge: !this.state.sortByAge
+    });
   }
 
   searchBarChange(e) {
     var str = e.target.value;
     this.setState({searchString: str})
+  }
+  
+  activeUser(user) {
+    this.setState({user});
   }
 
   render() {
@@ -51,7 +84,7 @@ export default class App extends Component {
           usersList.push(u);
         }
       });
-      user = usersList[0];
+      // user = usersList[0];
     }
 
     return (
@@ -60,13 +93,13 @@ export default class App extends Component {
           <div className="row">
             <div className="col-sm-12">
               <SearchBar inputChange={e => this.searchBarChange(e)}/>
-              <ToolBar sortName={e => this.sortByAlphabet()} sortAge={e => this.sortByAge} />
+              <ToolBar sortName={ e => this.sortByAlphabet() } sortAge={ e => this.sortByAge() } />
             </div>
             <div className="col-sm-4 col-md-3 col-lg-2">
-              <ActiveUser user={user}/>
+              <ActiveUser user={this.state.user}/>
             </div>
             <div className="col-sm-8 col-md-9 col-lg-10">
-              <UserList users={usersList} onUserClick={user => this.setState({user})}/>
+              <UserList users={usersList} onUserClick={ user => this.activeUser(user) }/>
             </div>
           </div> :
           <p className="text-center h2">LOADING</p>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 export default class ActiveUser extends Component {
   render() {
+    console.log(this.props.user);
     if(this.props.user !== undefined) {
       return (
         <div className="thumbnail">
