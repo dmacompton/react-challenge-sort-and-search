@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import UserData from "./UserData";
 
 export default class UserList extends Component {
-  render() {    
+  render() {
+    if (!this.props.users) { return (<p>Loading...</p>); }
 
     var usersList = this.props.users.map(
       (user) => <UserData key={user.id} user={user} onUserClick={this.props.onUserClick} />

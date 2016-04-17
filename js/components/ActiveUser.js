@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 export default class ActiveUser extends Component {
   render() {
     console.log(this.props.user);
-    if(this.props.user !== undefined) {
+    if(this.props.user === undefined) {
+      return (
+        <p>No data!</p>
+      )
+    }
       return (
         <div className="thumbnail">
           <img src={`images/${this.props.user.image}.svg`} alt={this.props.user.name}/>
@@ -31,10 +35,5 @@ export default class ActiveUser extends Component {
           </div>
         </div>
       );
-    } else {
-      return (
-          <p>No data!</p>
-      )
-    }
   }
 }
